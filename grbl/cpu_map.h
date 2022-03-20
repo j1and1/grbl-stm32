@@ -25,8 +25,11 @@
 #ifndef cpu_map_h
 #define cpu_map_h
 
+#ifdef WAINLUX_JL1
+#include "cpu_map_wainlux.h"
+#else
 #include "cpu_map_stm32.h"
-
+#endif
 /*
 #ifdef CPU_MAP_CUSTOM_PROC
   // For a custom pin map or different processor, copy and edit one of the available cpu

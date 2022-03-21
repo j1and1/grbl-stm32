@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    EEPROM_Emulation/inc/eeprom.h 
+  * @file    EEPROM_Emulation/inc/eeprom.h
   * @author  MCD Application Team
   * @version V3.1.0
   * @date    07/27/2009
-  * @brief   This file contains all the functions prototypes for the EEPROM 
+  * @brief   This file contains all the functions prototypes for the EEPROM
   *          emulation firmware library.
   ******************************************************************************
   * @copy
@@ -34,9 +34,13 @@
   #define PAGE_SIZE  (uint16_t)0x800  /* Page size = 2KByte */
 #endif
 
+#ifdef WAINLUX_JL1
+#define EEPROM_START_ADDRESS    ((uint32_t)0x0800e000)
+#else
 /* EEPROM start address in Flash */
 #define EEPROM_START_ADDRESS    ((uint32_t)0x0801fc00) /* EEPROM emulation start address:
                                                   after 64KByte of used Flash memory */
+#endif
 
 #endif /* __EEPROM_H */
 

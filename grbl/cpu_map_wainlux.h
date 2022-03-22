@@ -56,9 +56,10 @@
 
 // Define flood and mist coolant enable output pins.
 // a later date if flash and memory space allows.
-#define COOLANT_FLOOD_PORT GPIOC
-#define RCC_COOLANT_FLOOD_PORT RCC_APB2Periph_GPIOC
-#define COOLANT_FLOOD_BIT 3
+// lets use coolant flood command to turn on alignment laser
+#define COOLANT_FLOOD_PORT GPIOA
+#define RCC_COOLANT_FLOOD_PORT RCC_APB2Periph_GPIOA
+#define COOLANT_FLOOD_BIT 0
 #define COOLANT_MIST_PORT GPIOC
 #define RCC_COOLANT_MIST_PORT RCC_APB2Periph_GPIOC
 #define COOLANT_MIST_BIT 4

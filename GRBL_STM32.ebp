@@ -103,6 +103,8 @@
 		<Unit filename="cmsis\core_cmFunc.h" />
 		<Unit filename="cmsis\core_cmInstr.h" />
 		<Unit filename="grbl\config.h" />
+		<Unit filename="grbl\config_default.h" />
+		<Unit filename="grbl\config_wainlux.h" />
 		<Unit filename="grbl\coolant_control.c">
 			<Option compilerVar="CC" />
 		</Unit>

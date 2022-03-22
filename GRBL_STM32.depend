@@ -642,8 +642,9 @@
 1647780749 d:\repos\grbl-stm32\spl\inc\misc.h
 	"stm32f10x.h"
 
-1647780749 d:\repos\grbl-stm32\grbl\config.h
-	"grbl.h"
+1647938836 d:\repos\grbl-stm32\grbl\config.h
+	"config_wainlux.h"
+	"config_default.h"
 
 1647780749 d:\repos\grbl-stm32\grbl\nuts_bolts.h
 	"stm32f10x_rcc.h"
@@ -974,4 +975,10 @@
 	"usb_lib.h"
 	"usb_istr.h"
 	"hw_config.h"
+
+1647938985 d:\repos\grbl-stm32\grbl\config_wainlux.h
+	"grbl.h"
+
+1647938845 d:\repos\grbl-stm32\grbl\config_default.h
+	"grbl.h"
 

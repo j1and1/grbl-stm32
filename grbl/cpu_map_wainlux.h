@@ -36,7 +36,7 @@
 #define GPIO_LIMIT_PORT GPIO_PortSourceGPIOA
 #define X_LIMIT_BIT 11
 #define Y_LIMIT_BIT 12
-#define Z_LIMIT_BIT 13 // PA13 again assuming that it is not used by the board since I didn't find traces that use this
+#define Z_LIMIT_BIT 12 // PA13 again assuming that it is not used by the board since I didn't find traces that use this
 
 #define LIMIT_MASK ((1 << X_LIMIT_BIT) | (1 << Y_LIMIT_BIT) | (1 << Z_LIMIT_BIT)) // All limit bits
 
@@ -66,14 +66,14 @@
 
 // Define user-control controls (cycle start, reset, feed hold) input pins.
 // NOTE: All CONTROLs pins must be on the same port and not on a port with other input pins (limits).
-#define CONTROL_PIN_PORT GPIOC
-#define CONTROL_PORT GPIOC
-#define RCC_CONTROL_PORT RCC_APB2Periph_GPIOC
-#define GPIO_CONTROL_PORT GPIO_PortSourceGPIOC
-#define CONTROL_RESET_BIT 0
-#define CONTROL_FEED_HOLD_BIT 1
-#define CONTROL_CYCLE_START_BIT 2
-#define CONTROL_SAFETY_DOOR_BIT 5
+#define CONTROL_PIN_PORT GPIOA
+#define CONTROL_PORT GPIOA
+#define RCC_CONTROL_PORT RCC_APB2Periph_GPIOA
+#define GPIO_CONTROL_PORT GPIO_PortSourceGPIOA
+#define CONTROL_RESET_BIT 7
+#define CONTROL_FEED_HOLD_BIT 7
+#define CONTROL_CYCLE_START_BIT 7
+#define CONTROL_SAFETY_DOOR_BIT 7
 #define CONTROL_MASK ((1 << CONTROL_RESET_BIT) | (1 << CONTROL_FEED_HOLD_BIT) | (1 << CONTROL_CYCLE_START_BIT) | (1 << CONTROL_SAFETY_DOOR_BIT))
 
 // Define probe switch input pin.

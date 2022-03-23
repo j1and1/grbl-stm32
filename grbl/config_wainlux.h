@@ -35,7 +35,7 @@
 // one configuration file by placing their specific defaults and pin map at the bottom of this file.
 // If doing so, simply comment out these two defines and see instructions below.
 //#define DEFAULTS_GENERIC
-#define DEFAULT_CNC3020
+#define DEFAULT_WAINLUX_JL3
 #define CPU_MAP_STM32F103
 
 // Serial baud rate

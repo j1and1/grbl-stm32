@@ -43,7 +43,7 @@ void spindle_init()
   GPIO_Init(SPINDLE_ENABLE_PORT, &GPIO_InitStructure);
 
 #ifdef VARIABLE_SPINDLE
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+  RCC_APB2PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
   TIM_TimeBaseInitTypeDef timerInitStructure;
   TIM_OCInitTypeDef outputChannelInit = {0};
   TIM_TimeBaseStructInit(&timerInitStructure);
@@ -53,17 +53,17 @@ void spindle_init()
   timerInitStructure.TIM_Period = SPINDLE_PWM_MAX_VALUE - 1;
   timerInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;
   timerInitStructure.TIM_RepetitionCounter = 0;
-  TIM_TimeBaseInit(TIM1, &timerInitStructure);
+  TIM_TimeBaseInit(TIM3, &timerInitStructure);
 
   outputChannelInit.TIM_OCMode = TIM_OCMode_PWM1;
   outputChannelInit.TIM_Pulse = 0; // initi speed is 0
   outputChannelInit.TIM_OutputState = TIM_OutputState_Enable;
   outputChannelInit.TIM_OCPolarity = TIM_OCPolarity_High;
 
-  TIM_OC1Init(TIM1, &outputChannelInit);
-  TIM_OC1PreloadConfig(TIM1, TIM_OCPreload_Enable);
-  TIM_CtrlPWMOutputs(TIM1, DISABLE);
-  TIM_Cmd(TIM1, ENABLE);
+  TIM_OC3Init(TIM3, &outputChannelInit);
+  TIM_OC3PreloadConfig(TIM3, TIM_OCPreload_Enable);
+  TIM_CtrlPWMOutputs(TIM3, DISABLE);
+  TIM_Cmd(TIM3, ENABLE);
 
   RCC_APB2PeriphClockCmd(RCC_SPINDLE_PWM_PORT, ENABLE);
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -133,7 +133,7 @@ uint8_t spindle_get_state()
 void spindle_stop()
 {
 #ifdef VARIABLE_SPINDLE
-  TIM_CtrlPWMOutputs(TIM1, DISABLE);
+  TIM_CtrlPWMOutputs(TIM3, DISABLE);
 
 #ifdef USE_SPINDLE_DIR_AS_ENABLE_PIN
 #ifdef INVERT_SPINDLE_ENABLE_PIN
@@ -156,7 +156,7 @@ void spindle_stop()
 // and stepper ISR. Keep routine small and efficient.
 void spindle_set_speed(SPINDLE_PWM_TYPE pwm_value)
 {
-  TIM1->CCR1 = pwm_value;
+  TIM3->CCR3 = pwm_value;
 #ifdef SPINDLE_ENABLE_OFF_WITH_ZERO_SPEED
   if (pwm_value == SPINDLE_PWM_OFF_VALUE)
   {
@@ -164,7 +164,7 @@ void spindle_set_speed(SPINDLE_PWM_TYPE pwm_value)
   }
   else
   {
-    TIM_CtrlPWMOutputs(TIM1, ENABLE);
+    TIM_CtrlPWMOutputs(TIM3, ENABLE);
 #ifdef INVERT_SPINDLE_ENABLE_PIN
     ResetSpindleEnablebit();
 #else
@@ -174,11 +174,11 @@ void spindle_set_speed(SPINDLE_PWM_TYPE pwm_value)
 #else
   if (pwm_value == SPINDLE_PWM_OFF_VALUE)
   {
-    TIM_CtrlPWMOutputs(TIM1, DISABLE);
+    TIM_CtrlPWMOutputs(TIM3, DISABLE);
   }
   else
   {
-    TIM_CtrlPWMOutputs(TIM1, ENABLE);
+    TIM_CtrlPWMOutputs(TIM3, ENABLE);
   }
 #endif
 }

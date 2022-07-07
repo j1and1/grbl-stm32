@@ -263,9 +263,9 @@ void st_wake_up()
   #endif
 
   // Enable Stepper Driver Interrupt
-  TIM3->ARR = st.step_pulse_time - 1;
-  TIM3->EGR = TIM_PSCReloadMode_Immediate;
-  TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+  TIM4->ARR = st.step_pulse_time - 1;
+  TIM4->EGR = TIM_PSCReloadMode_Immediate;
+  TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
 
   TIM2->ARR = st.exec_segment->cycles_per_tick - 1;
   /* Set the Autoreload value */
@@ -367,7 +367,7 @@ void TIM2_IRQHandler(void)
 
   if (busy) { return; } // The busy-flag is used to avoid reentering this interrupt
   GPIO_Write(DIRECTION_PORT, (GPIO_ReadOutputData(DIRECTION_PORT) & ~DIRECTION_MASK) | (st.dir_outbits & DIRECTION_MASK));
-  TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+  TIM_ClearITPendingBit(TIM4, TIM_IT_Update);
 
   // Then pulse the stepping pins
   #ifdef STEP_PULSE_DELAY
@@ -378,7 +378,7 @@ void TIM2_IRQHandler(void)
 
   // Enable step pulse reset timer so that The Stepper Port Reset Interrupt can reset the signal after
   // exactly settings.pulse_microseconds microseconds, independent of the main Timer1 prescaler.
-  NVIC_EnableIRQ(TIM3_IRQn);
+  NVIC_EnableIRQ(TIM4_IRQn);
 
   busy = true;
 
@@ -504,13 +504,13 @@ void TIM2_IRQHandler(void)
 // This interrupt is enabled by ISR_TIMER1_COMPAREA when it sets the motor port bits to execute
 // a step. This ISR resets the motor port after a short period (settings.pulse_microseconds)
 // completing one step cycle.
-void TIM3_IRQHandler(void)
+void TIM4_IRQHandler(void)
 {
-	if ((TIM3->SR & 0x0001) != 0)                  // check interrupt source
+	if ((TIM4->SR & 0x0001) != 0)                  // check interrupt source
 	{
-		TIM3->SR &= ~(1<<0);                          // clear UIF flag
-		TIM3->CNT = 0;
-		NVIC_DisableIRQ(TIM3_IRQn);
+		TIM4->SR &= ~(1<<0);                          // clear UIF flag
+		TIM4->CNT = 0;
+		NVIC_DisableIRQ(TIM4_IRQn);
     // Reset stepping pins (leave the direction pins)
 		GPIO_Write(STEP_PORT, (GPIO_ReadOutputData(STEP_PORT) & ~STEP_MASK) | (step_port_invert_mask & STEP_MASK));
 	}
@@ -578,13 +578,13 @@ void stepper_init()
 	// RCC->APB1ENR |= RCC_APB1Periph_TIM2;
 	TIM_Configuration(TIM2, 1, 1, 1);
 
-  // Configurating TIM3
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-	// RCC->APB1ENR |= RCC_APB1Periph_TIM3;
-	TIM_Configuration(TIM3, 1, 1, 1);
+  // Configurating TIM4
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
+	// RCC->APB1ENR |= RCC_APB1Periph_TIM4;
+	TIM_Configuration(TIM4, 1, 1, 1);
 
-  // Stop/Distable TIM2 & TIM3 here
-	NVIC_DisableIRQ(TIM3_IRQn);
+  // Stop/Distable TIM2 & TIM4 here
+	NVIC_DisableIRQ(TIM4_IRQn);
 	NVIC_DisableIRQ(TIM2_IRQn);
 }
 
